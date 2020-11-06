@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Guided 1</title>
+    <script src="vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h1>{{ judul }}</h1>
+        <div class="d-flex justify-content-left">
+        <div class="card-body">
+        <div class="card-header">{{number}}</div>
+        <br>
+        
+        <div class="card-body text-primary">
+            <input type="number" class="form-control" v-model="tebakan" :disabled="isDisabled"/>
+            <br>
+            <button class="btn btn-primary btn-sm" @click="tebak" :disabled="isDisabled">Cek</button>
+            <br>
+            <br>
+            Kesempatan : {{ Kesempatan }} 
+            <br>
+            <br>
+            <span v-if="Kesempatan != 0">
+                <button class="btn btn-primary btn-sm" @click="ulang" >Coba lagi</button>
+            </span>
+            <span v-else-if="Kesempatan == 0">
+                Yah kalah...
+                <button class="btn btn-primary btn-sm" @click="restart" > Klik untuk coba lagi</button>
+            </span>
+            
+            <span v-if="benar == 1">
+                Selamat Anda telah Menang!
+                <button class="btn btn-primary btn-sm" @click="restart" >Klik untuk Main lagi</button>
+            </span>
+            <br>
+
+            <div class="footer">
+                <p>{{nama}}|{{npm}}|{{kelas}}</p>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+
+   
+</body>
+ <script>
+     new Vue({
+         el: "#app",
+         data:{
+             angka: Math.floor(Math.random() * 10) + 1,
+             judul: "Tebak Angka", 
+             number: "Masukan angka antara 1-10 :",
+             link: "https://vuejs.org/v2/guide/",
+             tebakan: 0,
+             Kesempatan: 3,
+             salah: undefined,
+             benar: undefined,
+             kalah: undefined,
+             isDisabled: false,
+             nama: "Yoel Chrisnanda Assan",
+             npm: "180709927",
+             kelas: "PAW A",
+             teks: "",
+         },
+         methods: {
+         tebak(){
+                if(this.tebakan == this.angka){
+                    this.benar = 1;
+                } else {
+                    this.salah = 1;
+                    this.isDisabled = true;
+                    this.Kesempatan--;
+                    if(this.Kesempatan==0){
+                        this.kalah=1;
+                        this.salah = undefined;
+                    }
+                }
+            },
+            ulang(){
+                if(this.salah == 1){
+                    this.isDisabled = false;
+                    this.salah = undefined;
+                }
+                
+            },
+            restart(){
+                location.reload();
+            }
+        },
+     });
+ </script>
+
+<style>
+    .footer {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      background-color: blue;
+      color: white;
+      text-align: center;
+    }
+    </style>
+</html>
